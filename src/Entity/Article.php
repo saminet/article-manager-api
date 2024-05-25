@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Tags\Property;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ApiFilter(SearchFilter::class, Properties: ['title' => 'exact'])]
 class Article
 {
     #[ORM\Id]

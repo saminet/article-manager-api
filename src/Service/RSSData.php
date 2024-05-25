@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class RSSData
 {
-
     private $em;
 
     public function __construct(EntityManagerInterface $manager)
@@ -18,7 +17,7 @@ class RSSData
 
     public function saveRssData($url)
     {
-        $rss = simplexml_load_file($url)or die("Failed to load");
+        $rss = simplexml_load_file($url) or die("Failed to load");
 
         foreach ($rss->channel->item as $item) {
             $title = $item->title;
@@ -26,7 +25,7 @@ class RSSData
             $link = $item->link;
             $copyright = $item->copyright;
             //media tag
-            $media = $item->children( 'media', True )->content->attributes();
+            $media = $item->children('media', true)->content->attributes();
             $image = $media->url;
             $imageUrl = (array) $image;
             $imageUrl = $imageUrl[0];
@@ -35,8 +34,8 @@ class RSSData
             $pubDate = new \DateTimeImmutable($pubDate);
 
             $article = new Article();
-            $articleExist = $this->em->getRepository(Article::class)->findOneBy(['title'=>$title]);
-            if($title && !$articleExist ){
+            $articleExist = $this->em->getRepository(Article::class)->findOneBy(['title' => $title]);
+            if ($title && !$articleExist) {
                 $article->setTitle($title);
                 $article->setDescription($description);
                 $article->setLink($link);
@@ -49,5 +48,4 @@ class RSSData
 
         $this->em->flush();
     }
-
 }

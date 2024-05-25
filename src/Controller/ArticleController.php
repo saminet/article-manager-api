@@ -31,7 +31,7 @@ class ArticleController extends AbstractController
         $this->em = $manager;
     }
 
-    #[Route('/', name: 'article_index', methods:['get'] )]
+    #[Route('/', name: 'article_index', methods:['get'])]
     public function index(ManagerRegistry $doctrine, RSSData $rssData, ApiData $apiData): JsonResponse
     {
         $rssUrl = 'https://www.lemonde.fr/rss/une.xml';
@@ -45,7 +45,7 @@ class ArticleController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/{id}', name: 'article_update', methods:['PUT', 'PATCH'] )]
+    #[Route('/{id}', name: 'article_update', methods:['PUT', 'PATCH'])]
     #[OA\RequestBody(
         description: "Modifier un article",
         content: new OA\JsonContent(
@@ -65,8 +65,8 @@ class ArticleController extends AbstractController
         date_default_timezone_set('Europe/Paris');
         $today = new \DateTimeImmutable(date('Y-m-d H:i:s'));
         $data = json_decode($request->getContent(), true);
-        $article->setTitle(!empty($data['title'])?$data['title']:"");
-        $article->setDescription(!empty($data['description'])?$data['description']:"");
+        $article->setTitle(!empty($data['title']) ? $data['title'] : "");
+        $article->setDescription(!empty($data['description']) ? $data['description'] : "");
         $article->setUpdatedAt($today);
 
         $this->em->persist($article);
@@ -82,11 +82,11 @@ class ArticleController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/{id}', name: 'delete_update', methods:['DELETE'] )]
+    #[Route('/{id}', name: 'delete_update', methods:['DELETE'])]
     public function deleteArticle(Request $request, int $id): JsonResponse
     {
         $article = $this->em->getRepository(Article::class)->find($id);
-        if(!$article){
+        if (!$article) {
             return $this->json('Aucun article trouvé.', 204);
         }
 
@@ -96,7 +96,7 @@ class ArticleController extends AbstractController
         return $this->json("Article supprimé avec l'id : " . $id, 200);
     }
 
-    #[Route('/search-article', name: 'find_article_by_criteria', methods:['POST'] )]
+    #[Route('/search-article', name: 'find_article_by_criteria', methods:['POST'])]
     #[OA\RequestBody(
         description: "Chercher les articles selon les critères ci-dessous",
         content: new OA\JsonContent(
@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
             ->getRepository(Article::class)
             ->findArticleByCriteria($data);
 
-        if(!$articles || $articles==null){
+        if (!$articles || $articles == null) {
             return $this->json('Aucun article trouvé.', 400);
         }
 

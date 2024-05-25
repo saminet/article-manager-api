@@ -1,0 +1,23 @@
+image: jakzal/phpqa:php8.1
+
+before_script:
+  - composer install
+
+cache:
+  paths:
+    - vendor/
+
+stages:
+  - CodingStandars
+
+phpcs:
+  stage: CodingStandars
+  script:
+    - phpcs -v --standard=PSR12 --ignore*./src/kernel.php ./src
+  allow_failure: false
+
+phpstan:
+  stage: CodingStandars
+  script:
+    - phpstan analyse ./src
+  allow_failure: false

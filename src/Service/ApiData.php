@@ -27,11 +27,11 @@ class ApiData
             $pubDate = $item->publishedAt;
             $pubDate = new \DateTimeImmutable($pubDate);
             $updatedAt = $item->updatedAt;
-            $updatedAt = $updatedAt?new \DateTimeImmutable($updatedAt):null;
+            $updatedAt = $updatedAt ? new \DateTimeImmutable($updatedAt) : null;
 
             $article = new Article();
-            $articleExist = $this->em->getRepository(Article::class)->findOneBy(['title'=>$title]);
-            if($title && !$articleExist ){
+            $articleExist = $this->em->getRepository(Article::class)->findOneBy(['title' => $title]);
+            if ($title && !$articleExist) {
                 $article->setTitle($title);
                 $article->setDescription($description);
                 $article->setLink($link);
@@ -45,4 +45,3 @@ class ApiData
         $this->em->flush();
     }
 }
-

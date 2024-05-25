@@ -23,8 +23,8 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findArticleByCriteria($data)
     {
-        $result="";
-        if( empty($data['title']) && empty($data['description']) ){
+        $result = "";
+        if (empty($data['title']) && empty($data['description'])) {
             return null;
         }
 
@@ -33,12 +33,14 @@ class ArticleRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('a');
 
-        if($title!=""){
-            $query->orWhere("a.title like :val1")->setParameter('val1', '%'.$title.'%');;
+        if ($title != "") {
+            $query->orWhere("a.title like :val1")->setParameter('val1', '%' . $title . '%');
+            ;
         }
 
-        if($description!=""){
-            $query->orWhere("a.description like :val2")->setParameter('val2', '%'.$description.'%');;
+        if ($description != "") {
+            $query->orWhere("a.description like :val2")->setParameter('val2', '%' . $description . '%');
+            ;
         }
 
         $query->add('orderBy', 'a.title ASC');
